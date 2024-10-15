@@ -41,6 +41,12 @@ if errorlevel 1 (
     goto :error
 )
 
+:: Delete previous build files
+echo Deleting previous build files...
+rmdir /s /q "%ROOT_DIR%\dist" >nul 2>&1
+rmdir /s /q "%ROOT_DIR%\build" >nul 2>&1
+
+
 :: Build with PyInstaller
 echo Building with PyInstaller...
 pyinstaller --clean "%ROOT_DIR%\nikke_ocr.spec" >nul 2>&1

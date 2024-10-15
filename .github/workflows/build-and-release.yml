@@ -29,11 +29,10 @@ jobs:
 
     - name: Prepare release package
       run: |
+        # Create a release folder
         mkdir NIKKE-OCR-release
-        xcopy /E /I dist\NIKKE-OCR NIKKE-OCR-release\NIKKE-OCR
-        xcopy /E /I resources NIKKE-OCR-release\resources
-        copy launcher.py NIKKE-OCR-release\
-        copy requirements\prod.txt NIKKE-OCR-release\requirements.txt
+        # Copy only the necessary files
+        xcopy /E /I dist\NIKKE-OCR NIKKE-OCR-release
 
     - name: Zip release package
       run: Compress-Archive -Path .\NIKKE-OCR-release -DestinationPath .\NIKKE-OCR.zip
