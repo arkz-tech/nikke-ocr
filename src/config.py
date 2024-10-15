@@ -1,13 +1,20 @@
 from pathlib import Path
+import sys
 
 
 class Config:
-    BASE_DIR = Path(__file__).resolve().parent.parent
-    RESOURCES_DIR = BASE_DIR / "resources"
+    if getattr(sys, "frozen", False):
+        BASE_DIR = Path(sys.executable).parent
+        INTERNAL_DIR = BASE_DIR / "_internal"
+    else:
+        BASE_DIR = Path(__file__).resolve().parent.parent
+        INTERNAL_DIR = BASE_DIR
 
+    RESOURCES_DIR = INTERNAL_DIR / "resources"
     STATIC_DIR = RESOURCES_DIR / "static"
-    GENERATED_DIR = RESOURCES_DIR / "generated"
-    USER_DATA_DIR = RESOURCES_DIR / "output"
+
+    GENERATED_DIR = BASE_DIR / "generated"
+    USER_DATA_DIR = BASE_DIR / "output"
 
     IMAGES_DIR = STATIC_DIR / "images"
     LANG_DIR = STATIC_DIR / "lang"

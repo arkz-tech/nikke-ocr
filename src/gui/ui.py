@@ -78,7 +78,7 @@ class NikkeOCRUI(QMainWindow):
         self.setWindowTitle(_("NIKKE OCR"))
         self.setGeometry(100, 100, 400, 300)
 
-        self.setWindowIcon(QIcon("resources/icon.png"))
+        self.setWindowIcon(QIcon(str(self.config.STATIC_DIR / "icon.png")))
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
@@ -443,11 +443,15 @@ class NikkeOCRUI(QMainWindow):
 
         for nikke in nikkes:
             reference_image: np.ndarray = cv2.imread(
-                f"{self.config.GENERATED_IMAGES_DIR}/{nikke['images']['big']}"
+                f"{self.config.GENERATED_IMAGES_DIR}/{nikke['images']['big']}",
+                cv2.IMREAD_UNCHANGED,  # This will load the image as-is, whether it's color or grayscale
             )
-            score: float = self.image_processor.compare_images(
-                nikke_image, reference_image
-            )
+
+            if reference_image is None:
+                print(f"Warning: Could not load image for {nikke['name']}")
+                continue
+
+            score: float = self.compare_images(nikke_image, reference_image)
             if score > best_score:
                 best_score = score
                 best_match = nikke

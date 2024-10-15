@@ -33,6 +33,11 @@ if errorlevel 1 (
     goto :error
 )
 
+:: Delete previous build
+echo Deleting previous build...
+rmdir /s /q "%ROOT_DIR%\dist" >nul 2>&1
+rmdir /s /q "%ROOT_DIR%\build" >nul 2>&1
+
 :: Install requirements
 echo Installing requirements...
 pip install -r "%ROOT_DIR%\requirements\dev.txt" -r "%ROOT_DIR%\requirements\prod.txt" >nul 2>&1

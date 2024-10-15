@@ -1,23 +1,20 @@
 name: Build and Release
 
 on:
+  workflow_dispatch:
   push:
-    branches: [ "main" ]
     tags:
       - 'v*'
-  pull_request:
-    branches: [ "main" ]
-  workflow_dispatch:
 
 jobs:
   build:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v3
 
     - name: Set up Python
-      uses: actions/setup-python@v2
+      uses: actions/setup-python@v4
       with:
         python-version: '3.9'
 
@@ -49,13 +46,13 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }}
-        asset_path: ./dist/nikke-ocr.exe
-        asset_name: nikke-ocr.exe
+        asset_path: ./dist/NIKKE-OCR/NIKKE-OCR.exe
+        asset_name: NIKKE-OCR.exe
         asset_content_type: application/octet-stream
 
     - name: Upload artifact for debugging
       if: ${{ !startsWith(github.ref, 'refs/tags/v') }}
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
-        name: nikke-ocr
-        path: ./dist/nikke-ocr.exe
+        name: NIKKE-OCR
+        path: ./dist/NIKKE-OCR/NIKKE-OCR.exe

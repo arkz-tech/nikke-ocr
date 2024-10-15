@@ -44,9 +44,21 @@ class ImageProcessor:
         return self.ocr_processor.process_name_roi(image)
 
     def compare_images(self, img1: np.ndarray, img2: np.ndarray) -> float:
+        # Ensure both images have the same dimensions
         img2 = cv2.resize(img2, (img1.shape[1], img1.shape[0]))
-        gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
-        gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+
+        # Convert images to grayscale if they're not already
+        if len(img1.shape) == 3:
+            gray1 = cv2.cvtColor(img1, cv2.COLOR_BGR2GRAY)
+        else:
+            gray1 = img1
+
+        if len(img2.shape) == 3:
+            gray2 = cv2.cvtColor(img2, cv2.COLOR_BGR2GRAY)
+        else:
+            gray2 = img2
+
+        # Compute SSIM
         score, _ = ssim(gray1, gray2, full=True)
         return score
 
