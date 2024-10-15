@@ -1,4 +1,6 @@
-# NIKKE OCR
+<div style="text-align: center;">
+  <img src="docs/banner.png" alt="NIKKE OCR Banner">
+</div>
 
 NIKKE OCR is a non-invasive tool designed to capture and record character information from the mobile game NIKKE: Goddess of Victory. This program uses optical character recognition (OCR) technology to extract data from screenshots of the game, ensuring no interference with the game's files or processes.
 
@@ -33,7 +35,6 @@ NIKKE OCR is a non-invasive tool designed to capture and record character inform
    - Extract the NIKKE OCR program to your preferred location.
    - Run `NIKKE-OCR.exe` as administrator.
 
-
 ## How It Works
 
 NIKKE OCR operates by taking screenshots of your game window. It does not interact directly with the game files or processes, ensuring the safety and integrity of your game installation. The program analyzes these screenshots using OCR technology to extract character data.
@@ -50,7 +51,6 @@ NIKKE OCR operates by taking screenshots of your game window. It does not intera
 5. The program will automatically capture screenshots and process character data.
 6. Character information will be logged in real-time and stored in the local database.
 7. To stop the process, press F1 again. Note that it may take a few seconds to complete the current action.
-
 
 ## Important Notes
 
