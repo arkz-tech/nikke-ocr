@@ -1,0 +1,11 @@
+PyQt5==5.15.11
+PyQt5-Qt5==5.15.2
+easyocr==1.7.2
+numpy==1.26.4
+opencv-contrib-python==4.10.0.84
+opencv-python==4.10.0.84
+opencv-python-headless==4.10.0.84
+scikit-image==0.24.0
+pynput==1.7.7
+PyAutoGUI==0.9.54
+requests==2.32.3

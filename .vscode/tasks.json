@@ -1,0 +1,31 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Setup Development Environment",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/setup.bat",
+            "windows": {
+                "command": "${workspaceFolder}\\scripts\\setup.bat"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Build Local Executable",
+            "type": "shell",
+            "command": "${workspaceFolder}/scripts/build.bat",
+            "windows": {
+                "command": "${workspaceFolder}\\scripts\\build.bat"
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "new"
+            },
+            "problemMatcher": []
+        }
+    ]
+}

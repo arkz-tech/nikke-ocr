@@ -1,0 +1,5 @@
+pyuac
+isort
+autoflake
+pypiwin32
+pyinstaller
