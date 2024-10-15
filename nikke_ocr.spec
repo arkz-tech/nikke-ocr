@@ -17,9 +17,8 @@ a = Analysis(
     pathex=[],
     binaries=binaries,
     datas=[
-        ('resources/static', 'resources/static'),
+        ('resources', 'resources'),
         ('src/config.py', 'src'),
-        ('resources/icon.png', 'resources'),
     ] + datas,
     hiddenimports=[
         'PyQt5', 'PyQt5.QtCore', 'PyQt5.QtGui', 'PyQt5.QtWidgets',

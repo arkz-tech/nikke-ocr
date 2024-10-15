@@ -78,7 +78,7 @@ class NikkeOCRUI(QMainWindow):
         self.setWindowTitle(_("NIKKE OCR"))
         self.setGeometry(100, 100, 400, 300)
 
-        self.setWindowIcon(QIcon(str(self.config.STATIC_DIR / "icon.png")))
+        self.setWindowIcon(QIcon(str(self.config.RESOURCES_DIR / "icon.png")))
 
         central_widget = QWidget()
         self.setCentralWidget(central_widget)
