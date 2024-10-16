@@ -1,19 +1,17 @@
 import datetime
 import json
 import os
-from typing import Any, Dict, Optional, List, Tuple
+from typing import Any, Dict, List, Optional
 
 from src.config import Config
 
 
 class NikkeDatabase:
-
     def __init__(self) -> None:
         self.config: Config = Config()
         self.data_folder: str = str(self.config.USER_DATA_DIR)
         self.current_file: str = self._generate_new_filename()
         self.data: List[Dict[str, Any]] = []
-        self.added_nikkes: int = 0
 
     def _generate_new_filename(self) -> str:
         timestamp = datetime.datetime.now().strftime("%Y_%m_%d_%H_%M_%S")
@@ -30,15 +28,7 @@ class NikkeDatabase:
         with open(self.current_file, "w") as f:
             json.dump(self.data, f, indent=4)
 
-    def add_or_update_character(
-        self, name: str, nikke_info: Dict[str, Any]
-    ) -> Tuple[bool, bool]:
-        # Validate combat_power
-        try:
-            combat_power = int(nikke_info.get("combat_power", "0"))
-        except ValueError:
-            combat_power = 0
-
+    def add_or_update_character(self, name: str, nikke_info: Dict[str, Any]) -> bool:
         simplified_info = {
             "name": name,
             "manufacturer": nikke_info.get("manufacturer"),
@@ -48,32 +38,26 @@ class NikkeDatabase:
             "rarity": nikke_info.get("rarity"),
             "weapon": nikke_info.get("weapon"),
             "element": nikke_info.get("element"),
-            "combat_power": str(combat_power),
+            "combat_power": nikke_info.get("combat_power"),
             "last_updated": str(datetime.datetime.now()),
         }
 
-        # Check if character already exists
-        for i, character in enumerate(self.data):
-            if character["name"] == name:
-                # Update existing character
-                self.data[i] = simplified_info
-                self.save_data()
-                return True, False  # Updated, but not added
+        # Check if character already exists and update, otherwise append
+        for char in self.data:
+            if char["name"] == name:
+                char.update(simplified_info)
+                break
+        else:
+            self.data.append(simplified_info)
 
-        # If character doesn't exist, add new one
-        self.data.append(simplified_info)
-        self.added_nikkes += 1
         self.save_data()
-        return True, True  # Added new character
+        return True
 
     def get_character(self, name: str) -> Optional[Dict[str, Any]]:
-        for character in self.data:
-            if character["name"] == name:
-                return character
+        for char in self.data:
+            if char["name"] == name:
+                return char
         return None
-
-    def get_added_nikkes_count(self) -> int:
-        return self.added_nikkes
 
     def get_all_characters(self) -> List[Dict[str, Any]]:
         return self.data

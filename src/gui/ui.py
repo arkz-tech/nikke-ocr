@@ -56,7 +56,6 @@ class KeyboardHandler(QObject):
 
 
 class NikkeOCRUI(QMainWindow):
-
     def __init__(self) -> None:
         super().__init__()
         self.config: Config = Config()
@@ -67,6 +66,7 @@ class NikkeOCRUI(QMainWindow):
 
         self.automation_active: bool = False
         self.first_nikke_name: Optional[str] = None
+        self.processed_nikkes: int = 0
         self.current_step: int = 0
         self.selected_rarities: List[str] = ["SSR", "SR", "R"]
 
@@ -219,6 +219,7 @@ class NikkeOCRUI(QMainWindow):
         self.automation_active = True
         self.current_step = 0
         self.first_nikke_name = None
+        self.processed_nikkes = 0
         self.status_label.setText(_("Status: Running (Press F1 to stop)"))
         self.log(_("Automation started. Performing click sequence..."))
         self._perform_automation()
@@ -229,7 +230,7 @@ class NikkeOCRUI(QMainWindow):
         self.current_step = 0
         self.status_label.setText(_("Status: Idle (Press F1 to start)"))
         self.log(_("Automation stopped and reset"))
-        self.log(f"Total new Nikkes added: {self.database.get_added_nikkes_count()}")
+        self.log(f"Total Nikkes processed: {self.processed_nikkes}")
 
     def _move_to_next_character(self) -> None:
         self.log(_("Clicking to move to next character."))
@@ -461,12 +462,8 @@ class NikkeOCRUI(QMainWindow):
         name: str = nikke_info["name"]
         self.log(f"Identified Nikke: {name}")
 
-        success, added = self.database.add_or_update_character(name, nikke_info)
-        if success:
-            if added:
-                self.log(f"Added new Nikke to database: {name}")
-            else:
-                self.log(f"Updated existing Nikke in database: {name}")
+        if self.database.add_or_update_character(name, nikke_info):
+            self.log(f"Updated database for {name}")
         else:
             self.log(f"Failed to update database for {name}")
 
